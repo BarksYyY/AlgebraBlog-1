@@ -34,6 +34,10 @@
                          <label for="body">Body</label>
                          <textarea class="form-control {{ $errors->has('body') ? 'has-error' : '' }} " id="body" name="body" rows="10" cols="80">{{ old('body') }}</textarea>
                     </div>
+                    <div class="form-group">
+                         <label for="tag">Tag</label>
+                         <input type="text" class="form-control" id="tag" name="tag" />
+                    </div>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Publish</button>

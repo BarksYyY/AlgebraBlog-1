@@ -15,24 +15,33 @@
         </a>
         <p class="blog-post-meta"> {{ $post->created_at->toFormattedDateString() }} by <a href="#">{{ $post->user->name }}</a></p>
 
+        @if(count($post->tags))
+            <section>
+                <h6 style="display: inline">Tags:</h6>
+                @foreach ($post->tags as $tag)
+                <a href="{{ route('tags', $tag) }}">{{ $tag->name }}</a>
+                @endforeach
+            </section>
+        @endif
+
         <section>
             {{ $post->body }}
         </section>
-	
+
 	@if ( $post->user_id == auth()->id() )
 	<form style="margin-top:4%" action="{{ route('posts.destroy',$post->id) }}" method="POST">
 		{{ method_field('DELETE') }}
-		{{ csrf_field() }} 
+		{{ csrf_field() }}
 		<div class="btn-group btn-group-lg">
 			<a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info">Edit</a>
 			<button class="btn btn-danger">Delete</button>
 		</div>
-		<div class="btn-group float-right btn-group-lg">	
+		<div class="btn-group float-right btn-group-lg">
 			<a class="btn btn-primary" href="{{ route('posts') }}">Go Back</a>
 		</div>
-	</form>	
-	@else 
-		<div class="btn-group btn-group-lg">	
+	</form>
+	@else
+		<div class="btn-group btn-group-lg">
 			<a class="btn btn-primary" href="{{ route('posts') }}">Go Back</a>
 		</div>
 	@endif
@@ -50,7 +59,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Add Comment</button>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
 
@@ -66,9 +75,9 @@
                             <i>{{ $comment->created_at->diffForHumans() }}</i>:&nbsp;
                             {{ $comment->body }}
                         </li>
-                        
+
                     @endforeach
-                </ul>            
+                </ul>
             </div>
         @else
             <hr />

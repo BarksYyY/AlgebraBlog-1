@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Carbon\Carbon;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -16,7 +18,19 @@ class PostsController extends Controller
 
     public function index(){
         // $posts = DB::table('posts')->get();
-        $posts = Post::latest()->get();
+        $posts = Post::latest();
+        //if(isset($_GET['month'])) { }
+
+        if($month = request('month')){
+            $posts->whereMonth('created_at', Carbon::parse($month)->month);
+        }
+
+        if($year = request('year')){
+            $posts->whereYear('created_at', $year);
+        }
+        $posts = $posts->get();
+
+        //$archives = Post::archives();
 
         return view('posts.index', compact('posts'));
     }
@@ -46,11 +60,15 @@ class PostsController extends Controller
         $post->user_id = auth()->id();
         $post->save(); */
 
-        Post::create([
+        $post = Post::create([
             'title' => request('title'),
             'body' => request('body'),
             'user_id' => auth()->id()
         ]);
+
+        $tag = request('tag');
+        $tag = Tag::where('name', $tag)->get();
+        $post->tags()->attach($tag);
 
         return redirect()->route('posts')->withFlashMessage('Post added successfully.');
     }

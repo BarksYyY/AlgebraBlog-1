@@ -33,6 +33,9 @@ Route::delete('/posts/{post}', 'PostsController@destroy')->name('posts.destroy')
 // Comments
 Route::post('/posts/{id}/comment', 'CommentController@store')->middleware('auth');
 
+//tags
+Route::get('/posts/tags/{tag}', 'TagController@index')->name('tags');
+
 
 
 
