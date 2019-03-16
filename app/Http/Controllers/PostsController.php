@@ -11,6 +11,7 @@ class PostsController extends Controller
     public function __construct(){
 
         $this->middleware('auth')->except(['index', 'show']);
+        //$this->middleware('verified');
     }
 
     public function index(){
@@ -68,12 +69,12 @@ class PostsController extends Controller
             'title' =>  'required|min:3|max:255',
             'body'  =>  'required|min:3|max:65535'
         ]);
-        
+
         $post = Post::find($id);
         $post_title = $post->title;
         $post->title = request('title');
         $post->body = request('body');
-        
+
         $post->save();
 
         return redirect()->route('posts.show', $post->id)->withFlashMessage('Post "'.$post_title.'" updated successfully.');
