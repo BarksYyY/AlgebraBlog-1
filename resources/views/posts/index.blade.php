@@ -11,9 +11,9 @@
         @endif
 
         <div class="panel-heading">
-            <a href="{{ route('posts.create') }}" class="btn btn-primary" style="margin-bottom: 20px" role="button">Dodaj novi post</a>                
+            <a href="{{ route('posts.create') }}" class="btn btn-primary" style="margin-bottom: 20px" role="button">Dodaj novi post</a>
         </div>
-    
+
         @foreach ($posts as $key => $post)
             <div class="blog-post">
                 <a href="{{ route('posts.show', $post->id) }}">
@@ -22,9 +22,17 @@
                 <p class="blog-post-meta"> {{ $post->created_at->toFormattedDateString() }} by <a href="#">{{ $post->user->name }}</a></p>
 
                 <section>{{ $post->body }}</section>
+                @if(count($post->Categories))
+                    <section>
+                        <h6 style="display: inline" class="blog-post-meta">Category:</h6>
+                        @foreach ($post->categories as $categorie)
+                        <a href="{{ route('categories', $categorie) }}">{{ $categorie->name }}</a>
+                        @endforeach
+                    </section>
+                @endif
             </div>
-        @endforeach      
-    
+        @endforeach
+
         <nav class="blog-pagination">
             <a class="btn btn-outline-primary" href="#">Older</a>
             <a class="btn btn-outline-secondary disabled" href="#">Newer</a>

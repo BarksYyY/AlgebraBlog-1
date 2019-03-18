@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Carbon\Carbon;
 use App\Tag;
+use App\Categorie;
 
 class PostsController extends Controller
 {
@@ -30,9 +31,11 @@ class PostsController extends Controller
         }
         $posts = $posts->get();
 
+        $categories = Categorie::pluck('name');
+
         //$archives = Post::archives();
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     public function show($id){
